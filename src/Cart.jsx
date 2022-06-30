@@ -2,16 +2,19 @@ import './App.css';
 import './App.mobile.css';
 
 export default function Cart({ cart, setIsOpenCart, isOpenCart, setCart }) {
+  // функция на закрытие корзины
   const closeCart = () => {
     setIsOpenCart(!isOpenCart);
   };
 
+  // функция на удаление из корзины
   const removeFromCart = async (hit) => {
     let tmp = cart.filter((item) => item.objectID !== hit.objectID);
     setCart(tmp);
     localStorage.setItem('cart', JSON.stringify(tmp));
   };
 
+  // возвращаем верстку корзины
   return (
     <div className="cart-lauyout">
       <div

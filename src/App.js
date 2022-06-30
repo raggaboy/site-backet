@@ -18,7 +18,6 @@ import {
 import algoliasearch from 'algoliasearch/lite';
 import {
   ClearFiltersMobile,
-  PriceSlider,
   NoResults,
   Ratings,
   ResultsNumberMobile,
@@ -31,11 +30,13 @@ import './App.mobile.css';
 import './widgets/Pagination.css';
 import Cart from './Cart';
 
+// Объявляем ключи к запросу
 const searchClient = algoliasearch(
   'ASPSO7FUGC',
   'ea1a5537f34b8cc404b94c23946bacc7'
 );
 
+// функция на добавление в корзину
 const Hit = ({ hit, cart, setCart }) => {
   const addToCart = async (value) => {
     let oldCart = localStorage.getItem('cart');
@@ -44,12 +45,14 @@ const Hit = ({ hit, cart, setCart }) => {
     localStorage.setItem('cart', JSON.stringify([...oldCart, value]));
   };
 
+  // функция на удаление из корзины
   const removeFromCart = async (hit) => {
     let tmp = cart.filter((item) => item.objectID !== hit.objectID);
     setCart(tmp);
     localStorage.setItem('cart', JSON.stringify(tmp));
   };
 
+  // функция на проверку находиться ли товар в корзине
   const isInCard = () => {
     const isItemInCard = cart.find((item) => {
       if (item.objectID === hit.objectID) {
@@ -60,6 +63,7 @@ const Hit = ({ hit, cart, setCart }) => {
     return isItemInCard !== undefined ? true : false;
   };
 
+ // Возвращаем кнопку 
   return (
     <article className="hit">
       <header className="hit-image-container">
@@ -96,14 +100,17 @@ const Hit = ({ hit, cart, setCart }) => {
             </span>
             <button
               className="add-to-cart-button"
+              // выбор функции в зависимости от состояния
               onClick={() =>
                 isInCard() === false ? addToCart(hit) : removeFromCart(hit)
               }
+              // выбор цвета в зависимости от состояния
               style={{
                 backgroundColor: isInCard() === false ? 'orange' : 'red',
               }}
+              // выбор текста в зависимости от состояния
             >
-              {isInCard() === false ? 'Add to cart' : 'Remove'}
+              {isInCard() === false ? 'Add to cart' : 'Remove'} 
             </button>
           </p>
         </footer>
@@ -117,6 +124,7 @@ const App = (props) => {
   const headerRef = useRef(null);
   const [isOpenCart, setIsOpenCart] = useState(false);
 
+  // функция на фильтрацию
   function openFilters() {
     document.body.classList.add('filtering');
     window.scrollTo(0, 0);
@@ -124,6 +132,7 @@ const App = (props) => {
     window.addEventListener('click', onClick);
   }
 
+  // функция на отмену фильтрации
   function closeFilters() {
     document.body.classList.remove('filtering');
     containerRef.current.scrollIntoView();
@@ -149,6 +158,7 @@ const App = (props) => {
 
   const [cart, setCart] = useState([]);
 
+  // функция на выгрузку корзины
   async function getCartData() {
     const isCard = localStorage.getItem('cart');
     if (isCard === null) {
@@ -167,6 +177,7 @@ const App = (props) => {
     setIsOpenCart(!isOpenCart);
   };
 
+  // возвращаем верстку страницы
   return (
     <>
       {!isOpenCart ? (
@@ -276,17 +287,6 @@ const App = (props) => {
                     />
                   </Panel>
 
-                  <Panel header="Price">
-                    <PriceSlider attribute="price" />
-                  </Panel>
-
-                  <Panel header="Free shipping">
-                    <ToggleRefinement
-                      attribute="free_shipping"
-                      label="Display only items with free shipping"
-                      value={true}
-                    />
-                  </Panel>
                 </div>
               </section>
 
@@ -302,45 +302,6 @@ const App = (props) => {
             </div>
 
             <section className="container-results">
-             {/* <header className="container-header container-options">
-                <SortBy
-                  className="container-option"
-                  defaultRefinement="test"
-                  items={[
-                    {
-                      label: 'Sort by featured',
-                      value: 'test',
-                    },
-                    {
-                      label: 'Price ascending',
-                      value: 'test_price_asc',
-                    },
-                    {
-                      label: 'Price descending',
-                      value: 'test_price_desc',
-                    },
-                  ]}
-                />
-
-                <HitsPerPage
-                  className="container-option"
-                  items={[
-                    {
-                      label: '16 hits per page',
-                      value: 16,
-                    },
-                    {
-                      label: '32 hits per page',
-                      value: 32,
-                    },
-                    {
-                      label: '64 hits per page',
-                      value: 64,
-                    },
-                  ]}
-                  defaultRefinement={16}
-                /> 
-              </header> */}
 
               <Hits
                 hitComponent={(hit) => (
