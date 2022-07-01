@@ -189,7 +189,7 @@ const App = (props) => {
               <div className="cart"></div>
               <span className="cart-count">{cart.length}</span>
             </div>
-            <p className="header-title">Stop looking for an item — find it.</p>
+            
 
             <SearchBox
               translations={{

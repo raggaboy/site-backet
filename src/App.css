@@ -21,7 +21,7 @@ body {
 }
 
 h2 {
-  color: #21243d;
+  color: #e6e7f1;
   font-family: Hind, sans-serif;
   font-size: 1.5rem;
   font-weight: bold;
@@ -353,13 +353,15 @@ mark {
 
 .cart {
   background-image: url('./assets/shopping-cart.png');
+  color: #fff;
+  background-color: #fff;
   background-size: cover;
   width: 40px;
   height: 40px;
 }
 
 .cart-count {
-  color: black;
+  color: rgb(255, 255, 255);
 }
 
 .add-to-cart-button {
