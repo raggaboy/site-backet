@@ -3,23 +3,19 @@ import {
   InstantSearch,
   HierarchicalMenu,
   RefinementList,
-  SortBy,
   Pagination,
   ClearRefinements,
   Highlight,
   Hits,
-  HitsPerPage,
   Panel,
   Configure,
   SearchBox,
   Snippet,
-  ToggleRefinement,
 } from 'react-instantsearch-dom';
 import algoliasearch from 'algoliasearch/lite';
 import {
   ClearFiltersMobile,
   NoResults,
-  Ratings,
   ResultsNumberMobile,
   SaveFiltersMobile,
 } from './widgets';
@@ -38,7 +34,7 @@ const searchClient = algoliasearch(
 
 // функция на добавление в корзину
 const Hit = ({ hit, cart, setCart }) => {
-  const addToCart = async (value) => {
+  const addToBasket = async (value) => {
     let oldCart = localStorage.getItem('cart');
     oldCart = await JSON.parse(oldCart);
     setCart([...cart, value]);
@@ -46,7 +42,7 @@ const Hit = ({ hit, cart, setCart }) => {
   };
 
   // функция на удаление из корзины
-  const removeFromCart = async (hit) => {
+  const removeFromBasket = async (hit) => {
     let tmp = cart.filter((item) => item.objectID !== hit.objectID);
     setCart(tmp);
     localStorage.setItem('cart', JSON.stringify(tmp));
@@ -102,7 +98,7 @@ const Hit = ({ hit, cart, setCart }) => {
               className="add-to-cart-button"
               // выбор функции в зависимости от состояния
               onClick={() =>
-                isInCard() === false ? addToCart(hit) : removeFromCart(hit)
+                isInCard() === false ? addToBasket(hit) : removeFromBasket(hit)
               }
               // выбор цвета в зависимости от состояния
               style={{
